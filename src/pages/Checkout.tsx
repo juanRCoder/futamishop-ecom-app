@@ -1,6 +1,7 @@
 import { ArrowLeft } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import ShopLayout from "@/layouts/ShopLayout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormInput } from "@/components/FormInput";
 import { FormInputRadio } from "@/components/FormInputRadio";
@@ -63,7 +64,7 @@ const Checkout = () => {
   const addAmountForDelivery = typeOfDeliveryValue === 'delivery' ? 3 : 0;
 
   return (
-    <section className="relative max-w-7xl mx-auto outline-1 bg-white text-gray-800 min-h-screen flex flex-col">
+    <ShopLayout>
       {/* HEADER */}
       <div className='flex items-center justify-between p-4 shadow-sm'>
         <ArrowLeft onClick={() => navigate('/cart')} strokeWidth={3} className='cursor-pointer' />
@@ -166,7 +167,7 @@ const Checkout = () => {
           {errors.notes && <p className="text-sm text-red-400">{errors.notes.message}</p>}
         </section>
         {/* RESUMEN */}
-        <div className="outline-1 outline-gray-200 m-3 mt-10 rounded-lg">
+        <div className="outline-1 outline-gray-200 mx-3 mt-10 rounded-lg">
           <h3 className="font-semibold p-3">Resumen</h3>
           <div className="flex justify-between border-t-2 border-t-[#F3F4F6] py-2 mx-3 text-sm">
             <p>Total productos</p>
@@ -183,13 +184,13 @@ const Checkout = () => {
             <p className="text-orange-500">S/ {(totalProductInCart + addAmountForDelivery).toFixed(2)}</p>
           </div>
         </div>
-        <div className="px-3">
-          <button type="submit" className="cursor-pointer bg-[#EC6D13] text-white py-3 rounded-md text-sm w-full px-3 mb-6">
+        <div className="px-3 py-5">
+          <button type="submit" className="cursor-pointer bg-[#EC6D13] text-white py-3 rounded-md text-sm w-full p-3">
             {isCreatingOrder ? 'Procesando compra...' : 'Finalizar compra'}
           </button>
         </div>
       </form>
-    </section>
+    </ShopLayout>
   )
 }
 

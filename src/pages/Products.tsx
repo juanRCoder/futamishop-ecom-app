@@ -1,13 +1,15 @@
 import { useMemo, useState } from 'react';
 import { Search, ShoppingCart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import ShopLayout from '@/layouts/ShopLayout';
 import { CardProduct } from '@/components/CardProduct';
 import { useProducts } from '@/hooks/useProducts';
 import { useCategories } from '@/hooks/useCategories';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useCartStore } from '@/stores/cart.store';
-import type { productList } from '@/types/product.types';
-import type { categoryList } from '@/types/categories.types';
+import type { productList } from '@/types/products.type';
+import type { categoryList } from '@/types/categories.type';
+
 
 const Products = () => {
   const [searchTerm, setSearchTerm] = useState<string>('')
@@ -48,7 +50,7 @@ const Products = () => {
   const error = errorAll || errorCategory;
 
   return (
-    <section className="relative max-w-7xl mx-auto outline-1 bg-white text-gray-800 min-h-screen flex flex-col">
+    <ShopLayout>
       {/* HEADER */}
       <div className='flex items-center justify-between p-4 shadow-sm'>
         <h2 className="text-2xl text-center flex-1 font-semibold">FutamiShop</h2>
@@ -118,7 +120,7 @@ const Products = () => {
           )}
         </div>
       )}
-    </section>
+    </ShopLayout>
   )
 }
 
