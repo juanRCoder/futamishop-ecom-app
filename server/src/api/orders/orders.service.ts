@@ -1,7 +1,6 @@
-import { PrismaClient } from "@generated/prisma/client";
+import { prisma } from "@server/prisma";
 import { orderedProduct, orderListDto } from "./orders.dto";
 import { formatVoucherDate } from "@server/utils/date.utils";
-const prisma = new PrismaClient();
 
 const findAllOrders = async () => {
   const allCategories = await prisma.orders.findMany({

@@ -1,5 +1,5 @@
-import { PrismaClient, Prisma } from "@generated/prisma/client";
-const prisma = new PrismaClient();
+import { Prisma } from "@generated/prisma/client";
+import { prisma } from "@server/prisma";
 
 const findAllProducts = async (searchTerm?: string) => {
   const whereConditions = searchTerm
