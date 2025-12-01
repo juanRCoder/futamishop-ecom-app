@@ -170,15 +170,52 @@ const Checkout = () => {
           </div>
         </section>
         {typeOfPaymentValue === "bank" && (
-          <section className="flex flex-col gap-3 p-3 text-gray-400 outline-1 outline-gray-200 mx-4 mt-3 rounded-lg">
-            <span>Próximamente agregado de voucher de pago</span>
-            <label className="text-sm text-gray-500">Subir imagen</label>
+          <section className="p-3">
+            <div className="my-4 outline-1 outline-gray-200 rounded-md p-3">
+              {/* METODOS DE PAGO */}
+              <div className="flex flex-wrap-reverse justify-between items-center gap-2">
+                <div className="flex flex-col justify-center">
+                  <p className="font-medium">Numero de cuenta:</p>
+                  <p className="font-bold">003-123-004567890123-45</p>
+                </div>
+                <img
+                  src="/logo_interbank.png"
+                  className="h-12 block"
+                />
+              </div>
+              {/* TITULAR */}
+              <div className="flex flex-col mt-6 font-semibold">
+                <p>Nombre del Titular:</p>
+                <p>Juan Guillermo Ramirez Montalvan</p>
+              </div>
+            </div>
+            <h3 className="font-semibold my-4">Comprobante de pago</h3>
             <input
+              id="imageVoucher"
               {...register("imageVoucher")}
               type="file"
               accept="image/*"
-              className="text-sm text-gray-300"
+              placeholder="subir imagen"
+              className="text-sm text-gray-300 hidden"
             />
+            {watch("imageVoucher")?.[0] ? (
+              <div className="flex justify-between items-center p-3">
+                <p className="text-sm text-gray-600 mt-2">
+                  {watch("imageVoucher")[0].name}
+                </p>
+                <button
+                  type="button"
+                  className="bg-[#EC6D13] text-white text-sm font-semibold py-2 px-3 rounded-md cursor-pointer"
+                  onClick={() => setValue("imageVoucher", null)}
+                >
+                  Quitar
+                </button>
+              </div>
+            ) : (
+              <label htmlFor="imageVoucher" className="block py-2 rounded-md cursor-pointer text-center text-[#EC6D13] bg-[#FEE7D6]">
+                Subir imagen
+              </label>
+            )}
           </section>
         )}
         <section className="flex flex-col gap-3 px-3 pt-3">
@@ -210,7 +247,7 @@ const Checkout = () => {
           </div>
         </div>
         <div className="px-3 py-5">
-          <button type="submit" className="cursor-pointer bg-[#EC6D13] text-white py-3 rounded-md text-sm w-full p-3">
+          <button type="submit" className="cursor-pointer bg-[#EC6D13] text-white py-3 rounded-md w-full p-3">
             {isCreatingOrder ? 'Procesando compra...' : 'Finalizar compra'}
           </button>
         </div>

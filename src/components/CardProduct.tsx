@@ -24,7 +24,7 @@ export const CardProduct = ({ product }: CardProductProps) => {
         <p className='text-[#EC6D13] font-semibold'>S/ {product.price.toFixed(2)}</p>
         <button
           onClick={() => addItem({ ...product, quantity: 1 })}
-          className='bg-[#FDF0E7] text-[#EC6D13] hover:text-white hover:bg-[#EC6D13] transition-colors py-1.5 px-3 rounded-md text-xs mt-2 cursor-pointer w-full'
+          className='text-[#EC6D13] bg-[#FEE7D6] transition-colors py-1.5 px-3 rounded-md mt-2 cursor-pointer w-full'
         >
           Agregar al carrito
         </button>
