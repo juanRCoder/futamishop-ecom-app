@@ -6,6 +6,7 @@ const Cart = lazy(() => import('@/pages/Cart'));
 const Checkout = lazy(() => import('@/pages/Checkout'));
 const Voucher = lazy(() => import('@/pages/Voucher'))
 const Dashboard = lazy(() => import('@/pages/admin/Dashboard'))
+const AdminProducts = lazy(() => import('@/pages/admin/AdminProducts'))
 
 export const mainRouter = createBrowserRouter([
   { path: "/", element: <Products /> },
@@ -16,7 +17,9 @@ export const mainRouter = createBrowserRouter([
   {
     path: "/admin",
     children: [
-      { path: "dashboard", element: <Dashboard /> },
+      { 
+        path: "dashboard", element: <Dashboard /> },
+      { path: "products", element: <AdminProducts /> }
     ]
   }
 ])

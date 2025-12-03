@@ -1,11 +1,11 @@
 import { useCartStore } from "@/stores/cart.store";
 import type { productList } from "@/types/products.type";
 
-type CardProductProps = {
+type ProductCardProps = {
   product: productList
 }
 
-export const CardProduct = ({ product }: CardProductProps) => {
+export const ProductCard = ({ product }: ProductCardProps) => {
   const { addItem } = useCartStore()
 
   return (

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Search, ShoppingCart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import ShopLayout from '@/layouts/ShopLayout';
-import { CardProduct } from '@/components/CardProduct';
+import { ProductCard } from '@/components/ProductCard';
 import { useProducts } from '@/hooks/useProducts';
 import { useCategories } from '@/hooks/useCategories';
 import { useDebounce } from '@/hooks/useDebounce';
@@ -111,7 +111,7 @@ const Products = () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 px-4 bg-gray-50 py-4">
           {filteredProducts && filteredProducts.length > 0 ? (
             filteredProducts.map((prd: productList) => (
-              <CardProduct key={prd.id} product={prd} />
+              <ProductCard key={prd.id} product={prd} />
             ))
           ) : (
             <div className="col-span-full text-center text-gray-500 py-10 select-none">
