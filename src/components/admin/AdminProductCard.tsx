@@ -2,7 +2,7 @@ import { Edit2, Trash2 } from "lucide-react"
 
 export const AdminProductCard = () => {
   return (
-    <div className='bg-white rounded-md shadow flex items-center justify-between p-5 mt-10'>
+    <div className='bg-white rounded-md shadow flex items-center justify-between p-5'>
       <div className="flex gap-6">
         <div className="flex justify-center items-center rounded-xl">
           <img

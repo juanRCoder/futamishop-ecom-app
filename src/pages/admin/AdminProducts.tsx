@@ -14,7 +14,12 @@ const ProductsAdmin = () => {
         <h2 className="text-2xl text-center flex-1 font-semibold">Productos</h2>
       </div>
       {/* CONTENT */}
-      <div className="bg-gray-50 flex-1 flex flex-col px-3 gap-5">
+      <div className="bg-gray-50 flex-1 flex flex-col px-3 gap-5 py-10">
+        <AdminProductCard />
+        <AdminProductCard />
+        <AdminProductCard />
+        <AdminProductCard />
+        <AdminProductCard />
         <AdminProductCard />
       </div>
     </AdminLayout>
