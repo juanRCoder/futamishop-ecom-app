@@ -20,9 +20,7 @@ export const getAllProducts = async (
     );
 
     if (!productList.length) {
-      return res
-        .status(HttpStatus.NOT_FOUND)
-        .json(apiResponse(false, { message: "No se encontraron productos" }));
+      return res.status(HttpStatus.OK).json(apiResponse(true, []));
     }
 
     return res.status(HttpStatus.OK).json(apiResponse(true, productList));

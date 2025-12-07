@@ -10,7 +10,7 @@ import { useCreateOrder } from "@/hooks/useOrders";
 import { schemaCheckoutForm, type TypeCheckoutForm, type TypeCheckout } from "@/schemas/checkout.schema";
 import { useCartStore } from "@/stores/cart.store";
 import { useVoucherStore } from "@/stores/voucher.store";
-import { defaultCheckoutForm } from "@/utils/default";
+import { defaultCheckoutForm } from "@/lib/default";
 
 
 const Checkout = () => {

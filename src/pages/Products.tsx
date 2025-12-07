@@ -3,6 +3,7 @@ import { Search, ShoppingCart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import ShopLayout from '@/layouts/ShopLayout';
 import { ProductCard } from '@/components/ProductCard';
+import { Button } from '@/components/ui/button';
 import { useProducts } from '@/hooks/useProducts';
 import { useCategories } from '@/hooks/useCategories';
 import { useDebounce } from '@/hooks/useDebounce';
@@ -51,25 +52,23 @@ const Products = () => {
 
   return (
     <ShopLayout>
-      {/* HEADER */}
-      <div className='flex items-center justify-between p-4 shadow-sm'>
+      <div className='bg-background text-foreground flex p-4 border-b'>
         <h2 className="text-2xl text-center flex-1 font-semibold">FutamiShop</h2>
         <div
           onClick={() => navigate('/cart')}
           className='flex items-center justift-center relative cursor-pointer'
         >
           {items.length > 0 && (
-            <span className='flex items-center justify-center absolute right-7 bottom-0 z-50 bg-orange-500 text-white rounded-full size-7 text-sm'>
+            <span className='outline-1 bg-accent flex items-center justify-center absolute right-7 bottom-2 z-50 rounded-full size-7 text-sm'>
               {items.length}
             </span>
           )}
           <ShoppingCart className='absolute right-4' />
         </div>
       </div>
-      {/* CONTENT */}
-      <div className='py-4 px-3'>
-        <div className='flex gap-2 bg-gray-100 rounded-xl p-3'>
-          <Search color='#767D8A' />
+      <div className='pt-4 px-4 flex flex-col gap-4'>
+        <div className='flex gap-2 bg-input rounded-xl p-3'>
+          <Search />
           <input
             type='text'
             placeholder='Buscar productos'
@@ -78,44 +77,41 @@ const Products = () => {
             className='w-full outline-none border-none'
           />
         </div>
-      </div>
-      <div className="scrollbar-custom flex gap-3 pb-4 px-3 overflow-x-auto">
-        {errorCategories && (
-          <div className="flex-1 flex items-center gap-4">
-            <span className="text-red-500">{errorCategories.message}</span>
-          </div>
-        )}
-        {categoriesWithAll?.map((ctg: categoryList) => (
-          <span
-            key={ctg.id}
-            className={`cursor-pointer py-1.5 px-3 rounded-4xl select-none
-              ${onCategory === ctg.name ? 'bg-orange-500 text-white' : 'bg-gray-100 text-gray-700'}
-              `}
-            onClick={() => handleProductsByCategory(ctg)}
-          >
-            {ctg.name}
-          </span>
-        ))}
+        <div className="scrollbar-custom flex gap-2 overflow-x-auto">
+          {errorCategories && (
+            <span className="text-destructive">{errorCategories.message}</span>
+          )}
+          {categoriesWithAll?.map((ctg: categoryList) => (
+            <Button
+              key={ctg.id}
+              variant='outline'
+              className='cursor-pointer rounded-md select-none'
+              onClick={() => handleProductsByCategory(ctg)}
+            >
+              {ctg.name}
+            </Button>
+          ))}
+        </div>
       </div>
       {loading && (
-        <div className="flex-1 flex items-center justify-center flex-col gap-4">
-          <span className="block border-5 border-orange-500 border-l-transparent w-12 h-12 rounded-full animate-spin" />
+        <div className="flex-1 flex flex-col items-center justify-center gap-4">
+          <span className="block border-5 border-l-transparent w-12 h-12 rounded-full animate-spin" />
         </div>
       )}
       {error && (
-        <div className="flex-1 flex items-center justify-center gap-4">
-          <span className="text-red-500">{error.message}</span>
+        <div className="flex-1 flex flex-col items-center justify-center gap-4">
+          <span className="text-destructive">{error.message}</span>
         </div>
       )}
       {!loading && !error && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 px-4 bg-gray-50 py-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
           {filteredProducts && filteredProducts.length > 0 ? (
             filteredProducts.map((prd: productList) => (
               <ProductCard key={prd.id} product={prd} />
             ))
           ) : (
-            <div className="col-span-full text-center text-gray-500 py-10 select-none">
-              No se encontraron productos
+            <div className="text-foreground col-span-full text-center py-10 select-none">
+              No se encontraron productos con "{searchTerm}"
             </div>
           )}
         </div>

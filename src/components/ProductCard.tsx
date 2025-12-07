@@ -1,5 +1,7 @@
 import { useCartStore } from "@/stores/cart.store";
 import type { productList } from "@/types/products.type";
+import { Card, CardContent } from "./ui/card";
+import { Button } from "./ui/button";
 
 type ProductCardProps = {
   product: productList
@@ -9,26 +11,29 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const { addItem } = useCartStore()
 
   return (
-    <div className='bg-white rounded-md shadow flex flex-col justify-between'>
-      <div className='flex justify-center items-center flex-1'>
+    <Card className='rounded-md shadow flex flex-col justify-between p-4'>
+      <CardContent className="flex flex-col gap-4 px-0">
         <img
-          src={product.imageUrl || '/default-img.png'}
-          className={`
-            rounded-t-md object-contain
-            ${!product.imageUrl && 'opacity-50 scale-80'}
-          `}
+          src={
+            product.imageUrl ||
+            "https://www.nestleprofessional-latam.com/sites/default/files/styles/np_product_detail/public/2023-01/CHOCOLATE-38-GR-X-20-UND-SUBLIME-SONRISA.jpg?itok=gXRByRju"
+          }
+          className="rounded-md object-cover opacity-90 max-h-48 h-48 w-auto"
         />
-      </div>
-      <div className='rounded-b-md bg-white pt-3 pb-2 px-2 font-semibold'>
-        <p>{product.name}</p>
-        <p className='text-[#EC6D13] font-semibold'>S/ {product.price.toFixed(2)}</p>
-        <button
-          onClick={() => addItem({ ...product, quantity: 1 })}
-          className='text-[#EC6D13] bg-[#FEE7D6] transition-colors py-1.5 px-3 rounded-md mt-2 cursor-pointer w-full'
-        >
-          Agregar al carrito
-        </button>
-      </div>
-    </div>
+        <div className="flex flex-col items-start gap-2">
+          <div>
+            <p>{product.name}</p>
+            <p className='font-semibold'>S/ {product.price.toFixed(2)}</p>
+          </div>
+          <Button
+            variant={'secondary'}
+            onClick={() => addItem({ ...product, quantity: 1 })}
+            className='py-5 mt-2 cursor-pointer w-full'
+          >
+            Agregar al carrito
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   )
 }
