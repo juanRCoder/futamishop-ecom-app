@@ -4,8 +4,9 @@ import { createRoot } from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
 import { mainRouter } from '@/routes/route'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ThemeProvider } from './stores/theme/ThemeProvider'
-import { ModeToggle } from './components/ToggleMode'
+import { ModeToggle } from './theme/ToggleMode'
+import { ThemeProvider } from './theme/ThemeProvider'
+
 
 
 const queryClient = new QueryClient()
