@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import { lazy } from "react";
 
 const Products = lazy(() => import('@/pages/Products'));
@@ -19,6 +19,7 @@ export const mainRouter = createBrowserRouter([
   {
     path: "/admin",
     children: [
+      { index: true, element: <Navigate to="dashboard" replace /> },
       { path: "dashboard", element: <Dashboard /> },
       { path: "products", element: <AdminProducts /> },
       { path: 'categories', element: <AdminCategories /> },
