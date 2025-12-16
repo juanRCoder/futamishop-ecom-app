@@ -1,46 +1,48 @@
 import dotenv from "dotenv";
 import { Prisma } from "@generated/prisma/client";
 import { prisma } from "@server/prisma";
-import { productListDto } from "@server/api/products/products.dto";
+import { createProductDto } from "@server/api/products/products.dto";
 import { uploadImageToCloudinary } from "@server/services/cloudinary";
 import { UploadApiResponse } from "cloudinary";
 
 dotenv.config();
 
-const findAllProducts = async (searchTerm?: string, isAdminFlag?: boolean) => {
-  const whereConditions = searchTerm
-    ? { name: { contains: searchTerm, mode: Prisma.QueryMode.insensitive } }
-    : undefined;
+const get = async (searchTerm?: string, isAdminFlag?: boolean) => {
+  let whereConditions;
 
-  const allProducts = await prisma.products.findMany({
+  if (searchTerm) {
+    whereConditions = {
+      name: { contains: searchTerm, mode: Prisma.QueryMode.insensitive },
+    };
+  }
+
+  const selectAdmin = {
+    id: true,
+    name: true,
+    imageUrl: true,
+    price: true,
+    stock: true,
+    category: { select: { name: true } },
+  };
+
+  const selectPublic = {
+    name: true,
+    imageUrl: true,
+    price: true,
+  };
+
+  const all = await prisma.products.findMany({
     where: whereConditions,
-    select: {
-      id: true,
-      name: true,
-      imageUrl: true,
-      price: true,
-      stock: true,
-      category: {
-        select: {
-          name: true,
-        },
-      },
-    },
+    select: isAdminFlag ? selectAdmin : selectPublic,
   });
 
-  return allProducts.map((p) => {
-    const { category, ...rest } = p;
-    return isAdminFlag
-      ? { ...rest, categoryName: category.name }
-      : { id: p.id, name: p.name, imageUrl: p.imageUrl, price: p.price };
-  });
+  return all;
 };
 
-const findProductsByCategoryId = async (categoryId: string) => {
+const getByCategoryId = async (categoryId: string) => {
   return prisma.products.findMany({
     where: { categoryId },
     select: {
-      id: true,
       name: true,
       imageUrl: true,
       price: true,
@@ -48,7 +50,7 @@ const findProductsByCategoryId = async (categoryId: string) => {
   });
 };
 
-const insertNewProduct = async (data: productListDto, buffer?: Buffer) => {
+const create = async (data: createProductDto, buffer?: Buffer) => {
   const folder = `${process.env.ROOT_FOLDER}/products-images`;
 
   let imgResult: UploadApiResponse | null = null;
@@ -69,7 +71,7 @@ const insertNewProduct = async (data: productListDto, buffer?: Buffer) => {
 };
 
 export const ProductServices = {
-  findAllProducts,
-  findProductsByCategoryId,
-  insertNewProduct,
+  get,
+  getByCategoryId,
+  create,
 };

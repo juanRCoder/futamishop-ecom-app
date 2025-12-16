@@ -2,45 +2,36 @@ import { NextFunction, Request, Response } from "express";
 import { HttpStatus } from "@server/constants/HttpStatus";
 import { apiResponse } from "@server/utils/apiResponse.utils";
 import { ProductServices } from "@server/api/products/products.service";
-import { productListDto } from "@server/api/products/products.dto";
 
-export const getAllProducts = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const get = async (req: Request, res: Response, next: NextFunction) => {
   const { searchTerm, isAdmin } = req.query;
   const term = typeof searchTerm === "string" ? searchTerm : undefined;
   const isAdminFlag = typeof isAdmin === "string" && isAdmin === "true";
 
   try {
-    const productList: productListDto[] = await ProductServices.findAllProducts(
-      term,
-      isAdminFlag
-    );
+    const products = await ProductServices.get(term, isAdminFlag);
 
-    if (!productList.length) {
+    if (!products.length) {
       return res.status(HttpStatus.OK).json(apiResponse(true, []));
     }
 
-    return res.status(HttpStatus.OK).json(apiResponse(true, productList));
+    return res.status(HttpStatus.OK).json(apiResponse(true, products));
   } catch (error) {
     console.error("[Controller: getAllProducts]", error);
     next(error);
   }
 };
 
-export const getProductsByCategoryId = async (
+export const getByCategoryId = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const { id } = req.params;
   try {
-    const productList: productListDto[] =
-      await ProductServices.findProductsByCategoryId(id);
+    const products = await ProductServices.getByCategoryId(id);
 
-    if (!productList.length) {
+    if (!products.length) {
       return res.status(HttpStatus.NOT_FOUND).json(
         apiResponse(false, {
           message: "No se encontraron productos para esta categoría",
@@ -48,14 +39,14 @@ export const getProductsByCategoryId = async (
       );
     }
 
-    return res.status(HttpStatus.OK).json(apiResponse(true, productList));
+    return res.status(HttpStatus.OK).json(apiResponse(true, products));
   } catch (error) {
     console.error("[Controller: getProductsByCategoryId]", error);
     next(error);
   }
 };
 
-export const createProduct = async (
+export const create = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -63,7 +54,7 @@ export const createProduct = async (
   try {
     const data = req.body;
     const imageProduct = req.file?.buffer;
-    await ProductServices.insertNewProduct(data, imageProduct);
+    await ProductServices.create(data, imageProduct);
 
     return res.status(HttpStatus.CREATED).json(
       apiResponse(true, {
