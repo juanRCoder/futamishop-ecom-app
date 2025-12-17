@@ -3,6 +3,6 @@ export interface createProductDto {
   price: number
   stock: number
   status: string
-  imageUrl: string | null
+  imageUrl?: string;
   categoryId: string
 }

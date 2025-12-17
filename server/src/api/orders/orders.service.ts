@@ -1,13 +1,13 @@
 import dotenv from "dotenv";
 import { prisma } from "@server/prisma";
 import { UploadApiResponse } from "cloudinary";
-import { orderedProduct, orderListDto } from "./orders.dto";
+import { orderedProductDto, createOrderDto } from "./orders.dto";
 import { formatVoucherDate } from "@server/utils/date.utils";
 import { uploadImageToCloudinary } from "@server/services/cloudinary";
 
 dotenv.config();
 
-const findAllOrders = async () => {
+const getAll = async () => {
   const allCategories = await prisma.orders.findMany({
     select: {
       id: true,
@@ -25,9 +25,9 @@ const findAllOrders = async () => {
   return allCategories;
 };
 
-const createOrder = async (
-  orderData: orderListDto,
-  products: orderedProduct[],
+const create = async (
+  orderData: createOrderDto,
+  products: orderedProductDto[],
   buffer?: Buffer
 ) => {
   const folder = `${process.env.ROOT_FOLDER}/voucher-images`;
@@ -100,6 +100,6 @@ const createOrder = async (
 };
 
 export const OrderServices = {
-  findAllOrders,
-  createOrder,
+  getAll,
+  create,
 };

@@ -1,13 +1,10 @@
 import { Router } from "express";
-import {
-  getAllOrders,
-  createOrder,
-} from "@server/api/orders/orders.controller";
+import { getAll, create } from "@server/api/orders/orders.controller";
 import { uploader } from "@server/middlewares/imageUpload.middlware";
 
 const orderRouter = Router();
 
-orderRouter.get("/", getAllOrders);
-orderRouter.post("/", uploader("imageVoucher"), createOrder);
+orderRouter.get("/", getAll);
+orderRouter.post("/", uploader("imageVoucher"), create);
 
 export default orderRouter;

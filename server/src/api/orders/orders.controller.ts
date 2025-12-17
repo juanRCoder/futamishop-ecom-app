@@ -2,29 +2,28 @@ import { Request, Response, NextFunction } from "express";
 import { OrderServices } from "./orders.service";
 import { HttpStatus } from "@server/constants/HttpStatus";
 import { apiResponse } from "@server/utils/apiResponse.utils";
-import { orderListDto } from "./orders.dto";
 
-export const getAllOrders = async (
+export const getAll = async (
   _req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const orderList: orderListDto[] = await OrderServices.findAllOrders();
+    const orders = await OrderServices.getAll();
 
-    if (!orderList.length) {
+    if (!orders.length) {
       return res
         .status(HttpStatus.NOT_FOUND)
         .json(apiResponse(false, { message: "There are no orders" }));
     }
-    return res.status(HttpStatus.OK).json(apiResponse(true, orderList));
+    return res.status(HttpStatus.OK).json(apiResponse(true, orders));
   } catch (error) {
-    console.error("[Controller: getAllOrders]", error);
+    console.error("[Controller: getAll]", error);
     next(error);
   }
 };
 
-export const createOrder = async (
+export const create = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -35,7 +34,7 @@ export const createOrder = async (
   if (!products) {
     return res.status(HttpStatus.BAD_REQUEST).json(
       apiResponse(false, {
-        message: "No se proporcionaron productos para el pedido",
+        message: "There are no products for the order",
       })
     );
   }
@@ -44,12 +43,12 @@ export const createOrder = async (
     typeof products === "string" ? JSON.parse(products) : products;
 
   try {
-    const newOrder = await OrderServices.createOrder(
+    const createdOrder = await OrderServices.create(
       orderData,
       parsedProducts,
       imageVoucher
     );
-    return res.status(HttpStatus.OK).json(apiResponse(true, newOrder));
+    return res.status(HttpStatus.OK).json(apiResponse(true, createdOrder));
   } catch (error) {
     console.error("[Controller: createOrder]", error);
     next(error);

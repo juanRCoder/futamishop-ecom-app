@@ -1,15 +1,15 @@
 import { prisma } from "@server/prisma"
 
-const findAllCategories = async () => {
-  const allCategories = await prisma.categories.findMany({
+const getAll = async () => {
+  const all = await prisma.categories.findMany({
     select: {
       id: true,
       name: true
     }
   })
-  return allCategories
+  return all
 }
 
 export const CategoryServices = {
-  findAllCategories
+  getAll
 }

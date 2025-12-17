@@ -3,13 +3,13 @@ import { HttpStatus } from "@server/constants/HttpStatus";
 import { apiResponse } from "@server/utils/apiResponse.utils";
 import { ProductServices } from "@server/api/products/products.service";
 
-export const get = async (req: Request, res: Response, next: NextFunction) => {
+export const getAll = async (req: Request, res: Response, next: NextFunction) => {
   const { searchTerm, isAdmin } = req.query;
   const term = typeof searchTerm === "string" ? searchTerm : undefined;
   const isAdminFlag = typeof isAdmin === "string" && isAdmin === "true";
 
   try {
-    const products = await ProductServices.get(term, isAdminFlag);
+    const products = await ProductServices.getAll(term, isAdminFlag);
 
     if (!products.length) {
       return res.status(HttpStatus.OK).json(apiResponse(true, []));
@@ -17,7 +17,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     return res.status(HttpStatus.OK).json(apiResponse(true, products));
   } catch (error) {
-    console.error("[Controller: getAllProducts]", error);
+    console.error("[Controller: getAll]", error);
     next(error);
   }
 };

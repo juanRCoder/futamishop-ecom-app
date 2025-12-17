@@ -7,9 +7,8 @@ import { UploadApiResponse } from "cloudinary";
 
 dotenv.config();
 
-const get = async (searchTerm?: string, isAdminFlag?: boolean) => {
+const getAll = async (searchTerm?: string, isAdminFlag?: boolean) => {
   let whereConditions;
-
   if (searchTerm) {
     whereConditions = {
       name: { contains: searchTerm, mode: Prisma.QueryMode.insensitive },
@@ -26,6 +25,7 @@ const get = async (searchTerm?: string, isAdminFlag?: boolean) => {
   };
 
   const selectPublic = {
+    id: true,
     name: true,
     imageUrl: true,
     price: true,
@@ -71,7 +71,7 @@ const create = async (data: createProductDto, buffer?: Buffer) => {
 };
 
 export const ProductServices = {
-  get,
+  getAll,
   getByCategoryId,
   create,
 };

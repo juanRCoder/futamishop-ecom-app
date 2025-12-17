@@ -1,17 +1,14 @@
-export interface orderListDto {
-  id: string;
+export interface createOrderDto {
   guestUserName: string;
   guestUserPhone: string;
   typeOfDelivery: string;
-  guestUserAddress: string | null;
+  guestUserAddress?: string;
   typeOfPayment: string;
-  imageVoucher: string | null;
-  notes: string | null;
-  total: number;
-  status: string;
+  imageVoucher?: string;
+  notes?: string;
 }
 
-export interface orderedProduct {
+export interface orderedProductDto {
   id: string,
   quantity: number
   price: number

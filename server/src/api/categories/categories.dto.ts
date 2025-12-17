@@ -1,4 +1,3 @@
-export interface categoryListDto {
-  id: string
+export interface createCategoryDto {
   name: string
 }
