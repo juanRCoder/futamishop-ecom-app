@@ -11,7 +11,7 @@ export const getAllCategories = async () => {
 
     const result = await response.json();
     if (!response.ok) throw new Error(result.payload.message);
-    result.payload.push({ id: '', name: 'Todos' });
+    //result.payload.push({ id: '', name: 'Todos' });
     return result;
   } catch (error) {
     console.error("[getAllCategories]", error);

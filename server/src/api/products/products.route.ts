@@ -17,12 +17,12 @@ const validateUUID = (fieldName: string) =>
 
 productRouter.get("/", getAll);
 productRouter.get("/category/:id", validateUUID("category"), getByCategoryId);
-productRouter.post("/", uploader("imageProduct"), create);
+productRouter.post("/", uploader("imageUrl"), create);
 productRouter.get("/:id", validateUUID("product"), getById);
 productRouter.patch(
   "/:id",
   validateUUID("product"),
-  uploader("imageProduct"),
+  uploader("imageUrl"),
   update
 );
 productRouter.delete("/:id", validateUUID("product"), remove);

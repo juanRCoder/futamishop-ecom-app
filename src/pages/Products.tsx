@@ -9,7 +9,7 @@ import { useCategories } from '@/hooks/useCategories';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useCartStore } from '@/stores/cart.store';
 import type { ProductType } from '@/types/products.type';
-import type { categoryList } from '@/types/categories.type';
+import type { CategoryType } from '@/types/categories.type';
 import { FormInput } from '@/components/FormInput';
 
 
@@ -25,7 +25,7 @@ const Products = () => {
   const { data: productsByCategory, isLoading: loadingCategory, error: errorCategory } = useProducts.ProductsByCategory(categoryId)
   const { data: allCategories, isLoading: loadingCategories, error: errorCategories } = useCategories.AllCategories()
 
-  const handleProductsByCategory = (ctg: categoryList) => {
+  const handleProductsByCategory = (ctg: CategoryType) => {
     setOnCategory(ctg.name)
     setCategoryId(ctg.id)
     setSearchTerm('')
@@ -76,7 +76,7 @@ const Products = () => {
           {errorCategories && (
             <span className="text-destructive">{errorCategories.message}</span>
           )}
-          {allCategories?.payload.map((ctg: categoryList) => (
+          {allCategories?.payload.map((ctg: CategoryType) => (
             <Button
               key={ctg.id}
               variant='outline'

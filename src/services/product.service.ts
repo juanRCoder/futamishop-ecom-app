@@ -15,7 +15,6 @@ export const getAll = async (searchTerm?: string, isAdmin: boolean = false) => {
 
     const result = await response.json();
     if (!response.ok) throw new Error(result.payload.message);
-    console.log(result)
     return result;
   } catch (error) {
     console.error("[getAll]", error);

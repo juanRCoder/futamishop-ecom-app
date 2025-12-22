@@ -5,6 +5,7 @@ const AllProducts = (searchTerm?: string, isAdmin: boolean = false) => {
   return useQuery({
     queryKey: ["allProducts", searchTerm, isAdmin],
     queryFn: () => getAll(searchTerm, isAdmin),
+    
     staleTime: 1000 * 60 * 5,
     retry: 1,
     refetchOnWindowFocus: false,
