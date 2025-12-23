@@ -30,6 +30,17 @@ export const AdminProductForm = ({ open, onOpenChange, mode = 'create', id }: Ad
   const [imageFile, setImageFile] = useState<File | null>(null); // For image upload handling
   const { data: product } = useProducts.useGetById(id || '');
   const { data: categories } = useCategories.AllCategories();
+  const { mutate: create } = useProducts.useCreate({
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["allProducts"],
+      });
+      onOpenChange(false);
+    },
+    onError: (message) => {
+      console.error("Error creating product:", message);
+    },
+  })
 
   const {
     register,
@@ -45,20 +56,20 @@ export const AdminProductForm = ({ open, onOpenChange, mode = 'create', id }: Ad
   // methods
   const onSubmit = (data: TypeProductForm) => {
     if (imageFile) data.imageUrl = imageFile;
-    console.log(data);
 
-    queryClient.invalidateQueries({
-      queryKey: ["allProducts"],
-    });
-
-    onOpenChange(false);
+    const formData = new FormData()
+    for (const key in data) {
+      const value = data[key as keyof TypeProductForm]
+      formData.append(key, value)
+    }
+    // console.log
+    // for (const [key, value] of formData.entries()) {
+    //   console.log(key, value)
+    // }
+    create(formData);
   }
-  const resetForm = () => {
-    reset(defaultProductForm);
-    setImageFile(null);
-  }
 
-  // lifecycle
+  // lifecycles
   useEffect(() => {
     if (product && mode === 'edit') {
       reset({
@@ -73,12 +84,15 @@ export const AdminProductForm = ({ open, onOpenChange, mode = 'create', id }: Ad
     }
   }, [reset, product, mode])
 
+  useEffect(() => {
+    if (!open) {
+      reset(defaultProductForm);
+      setImageFile(null);
+    };
+  }, [open, reset, setImageFile]);
 
   return (
-    <Dialog open={open} onOpenChange={(isOpen) => {
-      if (!isOpen) resetForm();
-      onOpenChange(isOpen);
-    }}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className='flex max-h-[min(600px,90vh)] flex-col gap-0 p-0 sm:max-w-xl'
         onOpenAutoFocus={(e) => e.preventDefault()}
@@ -184,7 +198,7 @@ export const AdminProductForm = ({ open, onOpenChange, mode = 'create', id }: Ad
               </DialogDescription>
               <DialogFooter className='px-6 pb-6 sm:justify-end'>
                 <DialogClose asChild>
-                  <Button onClick={resetForm} type="button" variant='outline' className="cursor-pointer">
+                  <Button type="button" variant='outline' className="cursor-pointer">
                     Salir
                   </Button>
                 </DialogClose>

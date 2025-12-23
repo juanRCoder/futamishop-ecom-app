@@ -16,7 +16,7 @@ export const AdminProductCard = ({ product }: AdminProductCardProps) => {
       <CardContent className="flex gap-6 px-0">
         <div className="flex justify-center items-center rounded-xl">
           <img
-            src={'/default-img.png'}
+            src={product.imageUrl || '/default-img.png'}
             className={`object-contain w-24 h-24 rounded-xl outline-1 outline-border`}
           />
         </div>

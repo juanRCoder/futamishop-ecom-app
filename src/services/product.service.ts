@@ -56,4 +56,20 @@ export const getById = async (id: string) => {
     console.error("[getById]", error);
     throw error;
   }
-}
+};
+
+export const create = async (data: FormData) => {
+  try {
+    const response = await fetch(`${API}/products`, {
+      method: "POST",
+      body: data,
+    });
+
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.payload.message);
+    return result;
+  } catch (error) {
+    console.error("[create]", error);
+    throw error;
+  }
+};
